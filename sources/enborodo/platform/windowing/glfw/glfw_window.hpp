@@ -1,5 +1,6 @@
 #pragma once
 
+#include <enborodo/rendering/color.hpp>
 #include <enborodo/windowing/window.hpp>
 
 struct GLFWwindow;

@@ -23,7 +23,7 @@ public:
 
     virtual void poll_events() = 0;
 
-    /// Render everything to the screen.
+    /// Renders everything to the screen.
     virtual void display() = 0;
 };
 

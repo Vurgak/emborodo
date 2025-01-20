@@ -9,11 +9,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 include(cmake/Glfw.cmake)
 
+add_subdirectory(vendor/glad)
+
 file(GLOB_RECURSE ENBORODO_SOURCES CONFIGURE_DEPENDS sources/enborodo/*.cpp sources/enborodo/*.hpp)
 add_library(enborodo)
 target_sources(enborodo PRIVATE ${ENBORODO_SOURCES})
 target_include_directories(enborodo PUBLIC sources)
-target_link_libraries(enborodo PUBLIC glfw)
+target_link_libraries(enborodo PUBLIC glad glfw)
 
 if (BUILD_SHARED_LIBS)
     target_compile_definitions(enborodo PRIVATE EN_SHARED)
@@ -30,7 +32,7 @@ file(GLOB_RECURSE EMBORODO_SOURCES CONFIGURE_DEPENDS sources/emborodo/*.cpp sour
 add_executable(emborodo)
 target_sources(emborodo PRIVATE ${EMBORODO_SOURCES})
 target_include_directories(emborodo PRIVATE sources)
-target_link_libraries(emborodo PUBLIC enborodo)
+target_link_libraries(emborodo PRIVATE enborodo)
 
 if(MSVC)
     target_compile_options(emborodo PRIVATE /W4)

@@ -8,6 +8,8 @@
 namespace en
 {
 
+class renderer;
+
 class EN_API application
 {
 public:
@@ -21,6 +23,7 @@ private:
     virtual void render() const = 0;
 
     std::unique_ptr<window> m_window{};
+    renderer* m_renderer;
 };
 
 }
