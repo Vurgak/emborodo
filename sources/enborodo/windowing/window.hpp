@@ -7,6 +7,11 @@
 namespace en
 {
 
+enum class window_backend
+{
+    glfw,
+};
+
 class EN_API window
 {
 public:
@@ -19,12 +24,19 @@ public:
     virtual void close() = 0;
 
     /// Checks whether the window is opened.
+    [[nodiscard]]
     virtual bool is_open() = 0;
 
     virtual void poll_events() = 0;
 
     /// Renders everything to the screen.
     virtual void display() = 0;
+
+    [[nodiscard]]
+    virtual window_backend get_backend() const = 0;
+
+    [[nodiscard]]
+    virtual void* get_handle() = 0;
 };
 
 }

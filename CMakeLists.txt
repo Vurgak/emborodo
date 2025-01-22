@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.28.3)
 project(emborodo)
 
-option(BUILD_SHARED_LIBS "Build the library as a shared library" ON)
+option(BUILD_SHARED_LIBS "Tell add_library() to default to SHARED libraries, instead of STATIC libraries, when called with no explicit library type." ON)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 include(cmake/Glfw.cmake)
+include(cmake/ImGui.cmake)
 
 add_subdirectory(vendor/glad)
 
@@ -15,7 +16,7 @@ file(GLOB_RECURSE ENBORODO_SOURCES CONFIGURE_DEPENDS sources/enborodo/*.cpp sour
 add_library(enborodo)
 target_sources(enborodo PRIVATE ${ENBORODO_SOURCES})
 target_include_directories(enborodo PUBLIC sources)
-target_link_libraries(enborodo PUBLIC glad glfw)
+target_link_libraries(enborodo PUBLIC glad glfw imgui)
 
 if (BUILD_SHARED_LIBS)
     target_compile_definitions(enborodo PRIVATE EN_SHARED)

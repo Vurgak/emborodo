@@ -11,7 +11,7 @@ namespace en
 class EN_API glfw_window final : public window
 {
 public:
-    ~glfw_window();
+    ~glfw_window() override;
 
     void open(std::string_view title, int width, int height) override;
 
@@ -23,10 +23,16 @@ public:
 
     void display() override;
 
+    [[nodiscard]]
+    window_backend get_backend() const override;
+
+    [[nodiscard]]
+    void* get_handle() override;
+
 private:
     static int s_instance_count;
 
-    GLFWwindow* m_handle;
+    GLFWwindow* m_handle = nullptr;
 };
 
 }

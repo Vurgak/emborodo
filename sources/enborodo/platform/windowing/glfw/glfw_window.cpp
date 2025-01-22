@@ -63,4 +63,14 @@ void glfw_window::display()
     glfwSwapBuffers(m_handle);
 }
 
+window_backend glfw_window::get_backend() const
+{
+    return window_backend::glfw;
+}
+
+void* glfw_window::get_handle()
+{
+    return m_handle;
+}
+
 }

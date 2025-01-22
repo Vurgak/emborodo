@@ -4,6 +4,7 @@
 
 #include <enborodo/windowing/window.hpp>
 #include <enborodo/configuration.hpp>
+#include <enborodo/gui/gui_controller.hpp>
 
 namespace en
 {
@@ -18,9 +19,10 @@ public:
 
     void run();
 
-private:
+protected:
     virtual void update(float delta_time) = 0;
     virtual void render() const = 0;
+    virtual void render_gui() const = 0;
 
     std::unique_ptr<window> m_window{};
     renderer* m_renderer;
