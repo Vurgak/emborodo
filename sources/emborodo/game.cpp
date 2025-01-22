@@ -1,5 +1,6 @@
 #include "game.hpp"
 
+#include <format>
 #include <enborodo/gui/gui_window.hpp>
 #include <enborodo/platform/gui/imgui/imgui_gui_controller.hpp>
 
@@ -25,9 +26,10 @@ void game::render_gui() const
 {
     m_gui_controller->begin();
 
-    m_gui_controller->draw_window("Test window", [](en::gui_window& window)
+    m_gui_controller->draw_window("Debug", [this](en::gui_window& window)
     {
-        window.text("Hello, world!");
+        window.text(std::format("FPS:        {:.1f}", 1.0f / get_frame_time()));
+        window.text(std::format("Frame time: {:.4f}ms", get_frame_time() * 1000));
     });
 
     m_gui_controller->end();

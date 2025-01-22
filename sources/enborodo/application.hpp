@@ -24,8 +24,13 @@ protected:
     virtual void render() const = 0;
     virtual void render_gui() const = 0;
 
+    float get_frame_time() const;
+
     std::unique_ptr<window> m_window{};
     renderer* m_renderer;
+
+private:
+    float m_frame_time = 0.0f;
 };
 
 }
