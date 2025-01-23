@@ -2,8 +2,9 @@
 
 #include <memory>
 
+#include <enborodo/configuration.hpp>
+#include <enborodo/rendering/renderer_backend.hpp>
 #include <enborodo/rendering/color.hpp>
-#include <enborodo/application.hpp>
 
 namespace en
 {
@@ -11,16 +12,11 @@ namespace en
 class EN_API renderer
 {
 public:
+    static std::unique_ptr<renderer> create(renderer_backend backend = renderer_backend::opengl);
+
     virtual ~renderer() = default;
 
-    static renderer& create();
-
-    static renderer& get_instance();
-
     virtual void clear(color color = color::black) = 0;
-
-private:
-    static std::unique_ptr<renderer> s_instance;
 };
 
 }

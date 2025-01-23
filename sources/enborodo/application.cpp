@@ -1,11 +1,8 @@
 #include "application.hpp"
 
 #include <chrono>
-#include <iostream>
 
 #include <enborodo/platform/windowing/glfw/glfw_window.hpp>
-#include <enborodo/gui/gui_window.hpp>
-#include <enborodo/rendering/renderer.hpp>
 
 namespace en
 {
@@ -14,7 +11,7 @@ application::application(const std::string_view name, const int width, const int
     m_window{std::make_unique<glfw_window>()}
 {
     m_window->open(name, width, height);
-    m_renderer = &renderer::create();
+    m_renderer = renderer::create(renderer_backend::opengl);
 }
 
 void application::run()

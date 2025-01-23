@@ -1,21 +1,21 @@
 #include "renderer.hpp"
 
+#include <format>
+
 #include <enborodo/platform/rendering/gl/gl_renderer.hpp>
 
 namespace en
 {
 
-std::unique_ptr<renderer> renderer::s_instance = nullptr;
-
-renderer& renderer::create()
+std::unique_ptr<renderer> renderer::create(const renderer_backend backend)
 {
-    s_instance = std::make_unique<gl_renderer>();
-    return *s_instance;
-}
-
-renderer& renderer::get_instance()
-{
-    return *s_instance;
+    switch (backend)
+    {
+        case renderer_backend::opengl:
+            return std::make_unique<gl_renderer>();
+        default:
+            throw std::out_of_range{std::format("renderer backend \"{}\" isn't implemented", to_string(backend))};
+    }
 }
 
 }

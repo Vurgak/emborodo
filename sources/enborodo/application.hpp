@@ -2,14 +2,12 @@
 
 #include <memory>
 
-#include <enborodo/windowing/window.hpp>
 #include <enborodo/configuration.hpp>
-#include <enborodo/gui/gui_controller.hpp>
+#include <enborodo/rendering/renderer.hpp>
+#include <enborodo/windowing/window.hpp>
 
 namespace en
 {
-
-class renderer;
 
 class EN_API application
 {
@@ -24,10 +22,11 @@ protected:
     virtual void render() const = 0;
     virtual void render_gui() const = 0;
 
+    [[nodiscard]]
     float get_frame_time() const;
 
-    std::unique_ptr<window> m_window{};
-    renderer* m_renderer;
+    std::unique_ptr<window> m_window = nullptr;
+    std::unique_ptr<renderer> m_renderer = nullptr;
 
 private:
     float m_frame_time = 0.0f;
