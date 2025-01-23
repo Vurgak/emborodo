@@ -13,6 +13,11 @@ imgui_gui_controller::imgui_gui_controller(window& window) :
     m_allocator{4096}
 {
     ImGui::CreateContext();
+
+    auto& imgui_io = ImGui::GetIO();
+    imgui_io.IniFilename = nullptr;
+    imgui_io.LogFilename = nullptr;
+
     ImGui_ImplGlfw_InitForOpenGL(static_cast<GLFWwindow*>(window.get_handle()), true);
     ImGui_ImplOpenGL3_Init();
 }
@@ -29,8 +34,6 @@ void imgui_gui_controller::begin()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-
-    ImGui::ShowDemoWindow(); // Show demo window! :)
 }
 
 void imgui_gui_controller::end()
