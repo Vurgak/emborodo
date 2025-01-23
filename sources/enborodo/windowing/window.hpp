@@ -1,20 +1,19 @@
 #pragma once
 
+#include <memory>
 #include <string_view>
 
 #include <enborodo/configuration.hpp>
+#include <enborodo/windowing/window_backend.hpp>
 
 namespace en
 {
 
-enum class window_backend
-{
-    glfw,
-};
-
 class EN_API window
 {
 public:
+    static std::unique_ptr<window> create(window_backend backend);
+
     virtual ~window() = default;
 
     /// Opens a new window if not currently open.

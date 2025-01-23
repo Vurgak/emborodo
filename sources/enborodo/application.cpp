@@ -7,10 +7,11 @@
 namespace en
 {
 
-application::application(const std::string_view name, const int width, const int height) :
-    m_window{std::make_unique<glfw_window>()}
+application::application(const std::string_view name, const int width, const int height)
 {
+    m_window = window::create(window_backend::glfw);
     m_window->open(name, width, height);
+
     m_renderer = renderer::create(renderer_backend::opengl);
 }
 
