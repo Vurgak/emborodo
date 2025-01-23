@@ -11,7 +11,10 @@ class EN_API imgui_gui_controller final : public gui_controller
 {
 public:
     explicit imgui_gui_controller(window& window);
+
     ~imgui_gui_controller() override;
+
+    void load_font(std::string_view file_path, int size) override;
 
     void begin() override;
 

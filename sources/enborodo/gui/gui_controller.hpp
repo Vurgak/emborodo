@@ -15,6 +15,8 @@ class EN_API gui_controller
 public:
     virtual ~gui_controller() = default;
 
+    virtual void load_font(std::string_view file_path, int size) = 0;
+
     virtual void begin() = 0;
     virtual void end() = 0;
 

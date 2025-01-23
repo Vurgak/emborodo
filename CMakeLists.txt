@@ -13,6 +13,12 @@ include(cmake/ImGui.cmake)
 
 add_subdirectory(vendor/glad)
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(ASSETS_PATH ${CMAKE_SOURCE_DIR}/assets/)
+else()
+    set(ASSETS_PATH ./assets/)
+endif()
+
 file(GLOB_RECURSE ENBORODO_SOURCES CONFIGURE_DEPENDS sources/enborodo/*.cpp sources/enborodo/*.hpp)
 add_library(enborodo)
 target_sources(enborodo PRIVATE ${ENBORODO_SOURCES})
@@ -35,6 +41,7 @@ add_executable(emborodo)
 target_sources(emborodo PRIVATE ${EMBORODO_SOURCES})
 target_include_directories(emborodo PRIVATE sources)
 target_link_libraries(emborodo PRIVATE enborodo)
+target_compile_definitions(emborodo PRIVATE EM_ASSETS_PATH="${ASSETS_PATH}")
 
 if(MSVC)
     target_compile_options(emborodo PRIVATE /W4)

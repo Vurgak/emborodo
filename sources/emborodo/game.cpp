@@ -11,6 +11,7 @@ game::game(const std::string_view name, const int width, const int height) :
     application{name, width, height}
 {
     m_gui_controller = std::make_unique<en::imgui_gui_controller>(*m_window);
+    m_gui_controller->load_font(EM_ASSETS_PATH "fonts/OpenSans-Medium.ttf", 18);
 }
 
 void game::update(const float delta_time)

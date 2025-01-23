@@ -29,6 +29,12 @@ imgui_gui_controller::~imgui_gui_controller()
     ImGui::DestroyContext();
 }
 
+void imgui_gui_controller::load_font(const std::string_view file_path, const int size)
+{
+    const auto& imgui_io = ImGui::GetIO();
+    imgui_io.Fonts->AddFontFromFileTTF(file_path.data(), static_cast<float>(size));
+}
+
 void imgui_gui_controller::begin()
 {
     ImGui_ImplOpenGL3_NewFrame();
