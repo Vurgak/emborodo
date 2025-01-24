@@ -5,6 +5,7 @@ option(BUILD_SHARED_LIBS "Tell add_library() to default to SHARED libraries, ins
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include(FetchContent)
 include(cmake/Glfw.cmake)
@@ -28,6 +29,10 @@ target_link_libraries(enborodo PUBLIC glad glfw glm::glm imgui)
 if (BUILD_SHARED_LIBS)
     target_compile_definitions(enborodo PRIVATE EN_SHARED)
     set_target_properties(enborodo PROPERTIES DEFINE_SYMBOL EN_EXPORTS)
+endif()
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(enborodo PUBLIC winmm)
 endif()
 
 if(MSVC)
