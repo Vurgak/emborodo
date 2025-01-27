@@ -18,7 +18,6 @@ void frame_control::end_frame()
     if (const auto frame_time = get_frame_time(); m_target_frame_time > 0 && frame_time < m_target_frame_time)
     {
         const auto sleep_for = m_target_frame_time - frame_time;
-        std::cout << "sleeping for " << sleep_for << " milliseconds" << std::endl;
         sleep(sleep_for);
     }
 }
