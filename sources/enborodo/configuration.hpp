@@ -7,8 +7,10 @@
         #else
             #define EN_API __declspec(dllimport)
         #endif
-        
-        #pragma warning(disable : 4251)
+
+        #ifdef _MSC_VER
+            #pragma warning(disable : 4251)
+        #endif
     #else
         #define EN_API __attribute__((visibility("default")))
     #endif
