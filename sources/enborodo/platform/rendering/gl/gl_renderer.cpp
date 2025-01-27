@@ -27,8 +27,8 @@ void gl_renderer::clear(const color color)
 
 void gl_renderer::render(const shader& shader, const model& model) const
 {
-    const auto program = dynamic_cast<const gl_shader&>(shader).get_program_handle();
-    const auto _model = dynamic_cast<const gl_model&>(model);
+    const auto& program = dynamic_cast<const gl_shader&>(shader).get_program_handle();
+    const auto& _model = dynamic_cast<const gl_model&>(model);
     const auto index_count =  static_cast<GLsizei>(_model.get_mesh()->get_indices().size());
 
     glUseProgram(program);

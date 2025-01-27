@@ -24,7 +24,9 @@ private:
     std::unique_ptr<en::gui_controller> m_gui_controller;
 
     en::shader_ptr m_shader;
-    en::model_ptr m_model;
+
+    en::mesh m_triangle_mesh;
+    en::model_ptr m_triangle;
 };
 
 }

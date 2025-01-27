@@ -17,9 +17,10 @@ game::game(const std::string_view name, const int width, const int height) :
 
     m_shader = m_renderer->new_shader();
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
-
-    m_model = m_renderer->new_model();
-    m_model->load_from_mesh(en::mesh::gen_triangle());
+    
+    m_triangle_mesh = en::mesh::gen_triangle();
+    m_triangle = m_renderer->new_model();
+    m_triangle->load_from_mesh(m_triangle_mesh);
 }
 
 void game::update(const float delta_time)
@@ -29,7 +30,7 @@ void game::update(const float delta_time)
 
 void game::render() const
 {
-    m_renderer->render(*m_shader, *m_model);
+    m_renderer->render(*m_shader, *m_triangle);
 }
 
 void game::render_gui() const
