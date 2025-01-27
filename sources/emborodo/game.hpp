@@ -4,6 +4,8 @@
 
 #include <enborodo/gui/gui_controller.hpp>
 #include <enborodo/application.hpp>
+#include <enborodo/rendering/mesh.hpp>
+#include <enborodo/rendering/model.hpp>
 
 namespace em
 {
@@ -20,6 +22,9 @@ protected:
 
 private:
     std::unique_ptr<en::gui_controller> m_gui_controller;
+
+    en::shader_ptr m_shader;
+    en::model_ptr m_model;
 };
 
 }

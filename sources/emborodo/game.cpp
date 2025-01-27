@@ -14,6 +14,12 @@ game::game(const std::string_view name, const int width, const int height) :
 
     m_gui_controller = std::make_unique<en::imgui_gui_controller>(*m_window);
     m_gui_controller->load_font(EM_ASSETS_PATH "fonts/OpenSans-Medium.ttf", 18);
+
+    m_shader = m_renderer->new_shader();
+    m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
+
+    m_model = m_renderer->new_model();
+    m_model->load_from_mesh(en::mesh::gen_triangle());
 }
 
 void game::update(const float delta_time)
@@ -23,6 +29,7 @@ void game::update(const float delta_time)
 
 void game::render() const
 {
+    m_renderer->render(*m_shader, *m_model);
 }
 
 void game::render_gui() const
