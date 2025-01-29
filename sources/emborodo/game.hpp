@@ -4,8 +4,10 @@
 
 #include <enborodo/gui/gui_controller.hpp>
 #include <enborodo/application.hpp>
+#include <enborodo/rendering/image.hpp>
 #include <enborodo/rendering/mesh.hpp>
 #include <enborodo/rendering/model.hpp>
+#include <enborodo/rendering/texture.hpp>
 
 namespace em
 {
@@ -25,8 +27,11 @@ private:
 
     en::shader_ptr m_shader;
 
-    en::mesh m_triangle_mesh;
-    en::model_ptr m_triangle;
+    en::image m_image;
+    en::texture_ptr m_texture;
+
+    en::mesh m_quad;
+    en::model_ptr m_model;
 };
 
 }

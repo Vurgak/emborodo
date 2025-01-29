@@ -8,14 +8,15 @@ mesh::mesh(std::vector<float>&& vertices, std::vector<unsigned int>&& indices) :
 {
 }
 
-mesh mesh::gen_triangle()
+mesh mesh::generate_quad()
 {
     return mesh{{
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
     }, {
-        0, 1, 2
+        0, 1, 2, 0, 2, 3
     }};
 }
 

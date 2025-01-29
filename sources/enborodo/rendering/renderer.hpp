@@ -11,6 +11,8 @@
 namespace en
 {
 
+class texture;
+
 class EN_API renderer
 {
 public:
@@ -24,7 +26,7 @@ public:
 
     virtual void clear(color color = color::black) = 0;
 
-    virtual void render(const shader& shader, const model& model) const = 0;
+    virtual void render(const shader& shader, const model& model, const texture& texture) const = 0;
 };
 
 }

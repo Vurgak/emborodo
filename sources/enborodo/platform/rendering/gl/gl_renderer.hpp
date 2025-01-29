@@ -6,6 +6,8 @@
 namespace en
 {
 
+class texture;
+
 class EN_API gl_renderer final : public renderer
 {
 public:
@@ -15,7 +17,7 @@ public:
 
     void clear(color color) override;
 
-    void render(const shader& shader, const model& model) const override;
+    void render(const shader& shader, const model& model, const texture& texture) const override;
 };
 
 }

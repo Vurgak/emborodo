@@ -3,6 +3,7 @@
 #include <format>
 #include <enborodo/gui/gui_window.hpp>
 #include <enborodo/platform/gui/imgui/imgui_gui_controller.hpp>
+#include <enborodo/platform/rendering/gl/gl_texture.hpp>
 
 namespace em
 {
@@ -17,10 +18,15 @@ game::game(const std::string_view name, const int width, const int height) :
 
     m_shader = m_renderer->new_shader();
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
-    
-    m_triangle_mesh = en::mesh::gen_triangle();
-    m_triangle = m_renderer->new_model();
-    m_triangle->load_from_mesh(m_triangle_mesh);
+
+    m_image.load_from_file(EM_ASSETS_PATH "textures/logo.png");
+
+    m_texture = std::make_unique<en::gl_texture>();
+    m_texture->load_from_image(m_image);
+
+    m_quad = en::mesh::generate_quad();
+    m_model = m_renderer->new_model();
+    m_model->load_from_mesh(m_quad);
 }
 
 void game::update(const float delta_time)
@@ -30,7 +36,7 @@ void game::update(const float delta_time)
 
 void game::render() const
 {
-    m_renderer->render(*m_shader, *m_triangle);
+    m_renderer->render(*m_shader, *m_model, *m_texture);
 }
 
 void game::render_gui() const

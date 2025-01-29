@@ -15,9 +15,13 @@ public:
 
     mesh(std::vector<float>&& vertices, std::vector<unsigned int>&& indices);
 
-    static mesh gen_triangle();
+    [[nodiscard]]
+    static mesh generate_quad();
 
+    [[nodiscard]]
     std::span<const float> get_vertices() const;
+
+    [[nodiscard]]
     std::span<const unsigned int> get_indices() const;
 
 private:
