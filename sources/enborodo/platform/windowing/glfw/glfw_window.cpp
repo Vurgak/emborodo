@@ -13,7 +13,7 @@ glfw_window::~glfw_window()
     close();
 }
 
-void glfw_window::open(std::string_view title, int width, int height)
+void glfw_window::open(const std::string_view title, const int width, const int height)
 {
     if (!s_instance_count)
     {
@@ -27,7 +27,7 @@ void glfw_window::open(std::string_view title, int width, int height)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
     m_handle = glfwCreateWindow(width, height, title.data(), nullptr, nullptr);
     glfwMakeContextCurrent(m_handle);
