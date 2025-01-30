@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <enborodo/configuration.hpp>
+#include <enborodo/gui/gui_controller.hpp>
 #include <enborodo/rendering/renderer.hpp>
 #include <enborodo/windowing/frame_control.hpp>
 #include <enborodo/windowing/window.hpp>
@@ -25,6 +26,7 @@ protected:
 
     std::unique_ptr<window> m_window = nullptr;
     std::unique_ptr<renderer> m_renderer = nullptr;
+    std::unique_ptr<en::gui_controller> m_gui_controller;
 
     frame_control m_frame_control{};
 };

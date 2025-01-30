@@ -23,8 +23,13 @@ void application::run()
         update(m_frame_control.get_delta_time());
 
         m_renderer->clear();
+
         render();
+
+        m_gui_controller->begin();
         render_gui();
+        m_gui_controller->end();
+
         m_window->display();
 
         m_frame_control.end_frame();
