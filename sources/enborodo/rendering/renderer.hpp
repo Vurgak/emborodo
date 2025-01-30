@@ -11,6 +11,7 @@
 namespace en
 {
 
+class camera;
 class texture;
 
 class EN_API renderer
@@ -27,6 +28,8 @@ public:
     virtual void clear(color color = color::black) = 0;
 
     virtual void render(const shader& shader, const model& model, const texture& texture) const = 0;
+
+    virtual void set_camera(camera& camera) = 0;
 };
 
 }

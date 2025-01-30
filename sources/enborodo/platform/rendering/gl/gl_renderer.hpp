@@ -18,6 +18,11 @@ public:
     void clear(color color) override;
 
     void render(const shader& shader, const model& model, const texture& texture) const override;
+
+    void set_camera(camera& camera) override;
+
+private:
+    camera* m_camera = nullptr;
 };
 
 }

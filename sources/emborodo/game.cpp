@@ -1,8 +1,10 @@
 #include "game.hpp"
 
 #include <format>
+
 #include <enborodo/gui/gui_window.hpp>
 #include <enborodo/platform/gui/imgui/imgui_gui_controller.hpp>
+#include <enborodo/platform/rendering/gl/gl_camera.hpp>
 #include <enborodo/platform/rendering/gl/gl_texture.hpp>
 
 namespace em
@@ -18,6 +20,12 @@ game::game(const std::string_view name, const int width, const int height) :
 
     m_shader = m_renderer->new_shader();
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
+
+    m_camera = std::make_unique<en::gl_camera>();
+    m_camera->set_position({1.0f, 2.0f, 3.0f});
+    m_camera->set_target({0.0f, 0.0f, 0.0f});
+
+    m_renderer->set_camera(*m_camera);
 
     m_image.load_from_file(EM_ASSETS_PATH "textures/logo.png");
 

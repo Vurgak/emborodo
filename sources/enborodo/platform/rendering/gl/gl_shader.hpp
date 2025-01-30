@@ -14,7 +14,10 @@ public:
 
     void load_from_memory(std::string_view vertex_code, std::string_view fragment_code) override;
 
+    [[nodiscard]]
     unsigned int get_program_handle() const;
+
+    void set_uniform(std::string_view name, const glm::mat4& value) const override;
 
 private:
     unsigned int m_program_handle = 0;

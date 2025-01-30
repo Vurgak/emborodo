@@ -7,6 +7,9 @@
 
 #include <glad/glad.h>
 
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/mat4x4.hpp>
+
 #include <enborodo/platform/system/file.hpp>
 
 namespace
@@ -124,6 +127,12 @@ void gl_shader::load_from_memory(const std::string_view vertex_code, const std::
 unsigned int gl_shader::get_program_handle() const
 {
     return m_program_handle;
+}
+
+void gl_shader::set_uniform(const std::string_view name, const glm::mat4& value) const
+{
+    const auto location = glGetUniformLocation(m_program_handle, name.data());
+    glUniformMatrix4fv(location, 1, false, glm::value_ptr(value));
 }
 
 }

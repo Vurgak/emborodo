@@ -4,6 +4,7 @@
 
 #include <enborodo/gui/gui_controller.hpp>
 #include <enborodo/application.hpp>
+#include <enborodo/rendering/camera.hpp>
 #include <enborodo/rendering/image.hpp>
 #include <enborodo/rendering/mesh.hpp>
 #include <enborodo/rendering/model.hpp>
@@ -26,6 +27,8 @@ private:
     std::unique_ptr<en::gui_controller> m_gui_controller;
 
     en::shader_ptr m_shader;
+
+    en::camera_ptr m_camera;
 
     en::image m_image;
     en::texture_ptr m_texture;
