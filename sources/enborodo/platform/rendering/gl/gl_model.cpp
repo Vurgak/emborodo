@@ -15,7 +15,7 @@ void gl_model::load_from_mesh(const mesh& mesh)
     const auto vertices = mesh.get_vertices();
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(vertices.size() * sizeof(vertices[0])), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(vertices.size() * sizeof(float)), vertices.data(), GL_STATIC_DRAW);
 
     constexpr int position_attrib = 0;
     glEnableVertexAttribArray(position_attrib);
