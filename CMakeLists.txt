@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+include(cmake/CPM.cmake)
 include(FetchContent)
 include(cmake/Glfw.cmake)
 include(cmake/Glm.cmake)
