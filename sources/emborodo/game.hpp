@@ -4,6 +4,7 @@
 
 #include <enborodo/gui/gui_controller.hpp>
 #include <enborodo/application.hpp>
+#include <enborodo/logging/logger.hpp>
 #include <enborodo/rendering/camera.hpp>
 #include <enborodo/rendering/image.hpp>
 #include <enborodo/rendering/mesh.hpp>
@@ -25,6 +26,7 @@ protected:
 
 private:
     std::unique_ptr<en::gui_controller> m_gui_controller;
+    en::logger m_logger;
 
     en::shader_ptr m_shader;
 

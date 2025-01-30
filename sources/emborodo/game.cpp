@@ -3,6 +3,7 @@
 #include <format>
 
 #include <enborodo/gui/gui_window.hpp>
+#include <enborodo/logging/sinks/terminal_sink.hpp>
 #include <enborodo/platform/gui/imgui/imgui_gui_controller.hpp>
 #include <enborodo/platform/rendering/gl/gl_camera.hpp>
 #include <enborodo/platform/rendering/gl/gl_texture.hpp>
@@ -17,6 +18,9 @@ game::game(const std::string_view name, const int width, const int height) :
 
     m_gui_controller = std::make_unique<en::imgui_gui_controller>(*m_window);
     m_gui_controller->load_font(EM_ASSETS_PATH "fonts/OpenSans-Medium.ttf", 18);
+
+    m_logger.set_minimum_level(en::log_level::warning);
+    m_logger.add_sink<en::terminal_sink>();
 
     m_shader = m_renderer->new_shader();
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
@@ -39,7 +43,7 @@ game::game(const std::string_view name, const int width, const int height) :
 
 void game::update(const float delta_time)
 {
-    (void)delta_time;
+    m_logger.log(en::log_level::debug, "delta_time: {}", delta_time);
 }
 
 void game::render() const
