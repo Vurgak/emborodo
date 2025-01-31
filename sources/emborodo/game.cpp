@@ -9,16 +9,11 @@
 namespace em
 {
 
-game::game(const std::string_view name, const int width, const int height) :
-    application{name, width, height}
+game::game(const std::string_view name, en::application_configuration& configuration) :
+    application{name, configuration}
 {
-    m_frame_control.set_target_fps(60);
-
-    m_gui_controller = std::make_unique<en::imgui_gui_controller>(*m_window);
-    m_gui_controller->load_font(EM_ASSETS_PATH "fonts/OpenSans-Medium.ttf", 18);
-
-    m_logger.set_minimum_level(en::log_level::warning);
     m_logger.add_sink<en::terminal_sink>();
+    m_gui_controller->load_font(EM_ASSETS_PATH "fonts/OpenSans-Medium.ttf", 20);
 
     m_shader = m_renderer->new_shader();
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");

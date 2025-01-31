@@ -10,7 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/mat4x4.hpp>
 
-#include <enborodo/platform/system/file.hpp>
+#include <enborodo/system/file.hpp>
 
 namespace
 {

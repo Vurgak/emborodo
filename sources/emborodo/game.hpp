@@ -5,7 +5,6 @@
 #include <enborodo/application.hpp>
 #include <enborodo/logging/logger.hpp>
 #include <enborodo/rendering/camera.hpp>
-#include <enborodo/rendering/image.hpp>
 #include <enborodo/rendering/mesh.hpp>
 #include <enborodo/rendering/model.hpp>
 #include <enborodo/rendering/texture.hpp>
@@ -23,7 +22,7 @@ namespace em
 class game final : public en::application
 {
 public:
-    game(std::string_view name, int width, int height);
+    game(std::string_view name, en::application_configuration& configuration);
 
 protected:
     void update(float delta_time) override;
@@ -32,8 +31,6 @@ protected:
 
 private:
     void draw_debug_window(en::gui_window& window);
-
-    en::logger m_logger;
 
     en::shader_ptr m_shader;
     en::camera_ptr m_camera;

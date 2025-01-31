@@ -11,9 +11,13 @@ namespace en
 class EN_API glfw_window final : public window
 {
 public:
+    glfw_window(
+        const window_configuration& window_configuration,
+        const rendering_configuration& rendering_configuration);
+
     ~glfw_window() override;
 
-    void open(std::string_view title, int width, int height) override;
+    void open(std::string_view title) override;
 
     void close() override;
 
@@ -30,9 +34,14 @@ public:
     void* get_handle() override;
 
 private:
+    void open_with_opengl(std::string_view title);
+
     static int s_instance_count;
 
     GLFWwindow* m_handle = nullptr;
+
+    const window_configuration& m_configuration;
+    const rendering_configuration& m_rendering_configuration;
 };
 
 }

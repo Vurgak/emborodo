@@ -2,17 +2,23 @@
 
 #include <chrono>
 
+#include <enborodo/platform/gui/imgui/imgui_gui_controller.hpp>
 #include <enborodo/platform/windowing/glfw/glfw_window.hpp>
 
 namespace en
 {
 
-application::application(const std::string_view name, const int width, const int height)
+application::application(const std::string_view name, const application_configuration& configuration) :
+    m_logger{configuration.logging}
 {
-    m_window = window::create(window_backend::glfw);
-    m_window->open(name, width, height);
+    m_window = window::create(configuration.window, configuration.rendering);
+    m_window->open(name);
 
     m_renderer = renderer::create(renderer_backend::opengl);
+
+    m_frame_control.set_target_fps(configuration.window.fps_limit);
+
+    m_gui_controller = std::make_unique<imgui_gui_controller>(*m_window);
 }
 
 void application::run()

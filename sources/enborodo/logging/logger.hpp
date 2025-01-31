@@ -6,16 +6,19 @@
 #include <string>
 #include <vector>
 
+#include <enborodo/configuration/application_configuration.hpp>
 #include <enborodo/logging/log_level.hpp>
 #include <enborodo/logging/sinks/log_sink.hpp>
 
 namespace en
 {
 
+struct logging_configuration;
+
 class EN_API logger
 {
 public:
-    logger() = default;
+    explicit logger(const logging_configuration& configuration);
 
     logger(const logger&) = delete;
 
@@ -32,7 +35,7 @@ public:
     void log(log_level level, std::format_string<TArgs...> message, TArgs&&... args) const;
 
 private:
-    log_level m_minimum_level = log_level::debug;
+    logging_configuration m_configuration;
     std::vector<std::unique_ptr<log_sink>> m_sinks;
 };
 

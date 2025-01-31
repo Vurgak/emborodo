@@ -4,6 +4,7 @@
 #include <string_view>
 
 #include <enborodo/configuration.hpp>
+#include <enborodo/configuration/application_configuration.hpp>
 #include <enborodo/windowing/window_backend.hpp>
 
 namespace en
@@ -12,12 +13,14 @@ namespace en
 class EN_API window
 {
 public:
-    static std::unique_ptr<window> create(window_backend backend);
+    static std::unique_ptr<window> create(
+        const window_configuration& window_configuration,
+        const rendering_configuration& rendering_configuration);
 
     virtual ~window() = default;
 
     /// Opens a new window if not currently open.
-    virtual void open(std::string_view title, int width, int height) = 0;
+    virtual void open(std::string_view title) = 0;
 
     /// Closes the window if opened.
     virtual void close() = 0;

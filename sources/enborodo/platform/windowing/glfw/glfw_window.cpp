@@ -74,12 +74,20 @@ namespace en
 
 int glfw_window::s_instance_count = 0;
 
+glfw_window::glfw_window(
+        const window_configuration& window_configuration,
+        const rendering_configuration& rendering_configuration) :
+    m_configuration{window_configuration},
+    m_rendering_configuration{rendering_configuration}
+{
+}
+
 glfw_window::~glfw_window()
 {
     close();
 }
 
-void glfw_window::open(const std::string_view title, const int width, const int height)
+void glfw_window::open(const std::string_view title)
 {
     if (!s_instance_count)
     {
@@ -87,34 +95,11 @@ void glfw_window::open(const std::string_view title, const int width, const int 
         s_instance_count++;
     }
 
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-
-    m_handle = glfwCreateWindow(width, height, title.data(), nullptr, nullptr);
-    glfwMakeContextCurrent(m_handle);
-    glfwSwapInterval(0);
-
-    gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
-
-    int context_flags;
-    glGetIntegerv(GL_CONTEXT_FLAGS, &context_flags);
-    if (context_flags & GL_CONTEXT_FLAG_DEBUG_BIT)
+    switch (m_rendering_configuration.backend)
     {
-        glEnable(GL_DEBUG_OUTPUT);
-        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-        glDebugMessageCallback(handle_opengl_debug, nullptr);
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
-    }
-    else
-    {
-        std::println(stderr, "Error: Failed to initialize OpenGL debug logging");
+        case renderer_backend::opengl:
+            open_with_opengl(title);
+            break;
     }
 }
 
@@ -153,6 +138,43 @@ window_backend glfw_window::get_backend() const
 void* glfw_window::get_handle()
 {
     return m_handle;
+}
+
+void glfw_window::open_with_opengl(const std::string_view title)
+{
+    glfwWindowHint(GLFW_RESIZABLE, m_configuration.resizable);
+    glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, m_rendering_configuration.major_version);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, m_rendering_configuration.minor_version);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, m_rendering_configuration.debug);
+
+    m_handle = glfwCreateWindow(m_configuration.width, m_configuration.height, title.data(), nullptr, nullptr);
+    glfwMakeContextCurrent(m_handle);
+    glfwSwapInterval(m_configuration.vsync ? 1 : 0);
+
+    gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
+
+    if (m_rendering_configuration.debug)
+    {
+        int context_flags;
+        glGetIntegerv(GL_CONTEXT_FLAGS, &context_flags);
+        if (context_flags & GL_CONTEXT_FLAG_DEBUG_BIT)
+        {
+            glEnable(GL_DEBUG_OUTPUT);
+            glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+            glDebugMessageCallback(handle_opengl_debug, nullptr);
+            glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+            glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
+        }
+        else
+        {
+            std::println(stderr, "Error: Failed to initialize OpenGL debug logging");
+        }
+    }
 }
 
 }

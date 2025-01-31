@@ -2,7 +2,9 @@
 
 int main()
 {
-    em::game game{"Emborodo", 1600, 900};
+    auto configuration = en::application_configuration::deserialize(EM_ASSETS_PATH "configuration.toml");
+
+    em::game game{"Emborodo", configuration};
     game.run();
     return 0;
 }

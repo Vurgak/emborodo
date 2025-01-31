@@ -1,0 +1,16 @@
+[window]
+backend = "glfw"
+width = 1600
+height = 900
+resizable = false
+vsync = false
+fps_limit = 60
+
+[rendering]
+backend = "opengl"
+major_version = 4
+minor_version = 3
+debug = false
+
+[logging]
+level = "warning"
