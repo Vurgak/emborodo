@@ -9,6 +9,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include(cmake/CPM.cmake)
 CPMAddPackage("gh:Neargye/magic_enum#v0.9.7")
+CPMAddPackage(
+        NAME assimp
+        GITHUB_REPOSITORY assimp/assimp
+        VERSION 5.4.3
+        OPTIONS "ASSIMP_BUILD_TESTS OFF" "ASSIMP_INSTALL OFF")
 
 include(FetchContent)
 include(cmake/Glfw.cmake)
@@ -28,7 +33,7 @@ file(GLOB_RECURSE ENBORODO_SOURCES CONFIGURE_DEPENDS sources/enborodo/*.cpp sour
 add_library(enborodo)
 target_sources(enborodo PRIVATE ${ENBORODO_SOURCES})
 target_include_directories(enborodo PUBLIC sources)
-target_link_libraries(enborodo PUBLIC glad glfw glm::glm imgui magic_enum::magic_enum stb)
+target_link_libraries(enborodo PUBLIC assimp glad glfw glm::glm imgui magic_enum::magic_enum stb)
 
 if (BUILD_SHARED_LIBS)
     target_compile_definitions(enborodo PRIVATE EN_SHARED)
