@@ -26,6 +26,16 @@ model_ptr gl_renderer::new_model()
     return std::make_unique<gl_model>();
 }
 
+texture_ptr gl_renderer::new_texture()
+{
+    return std::make_unique<gl_texture>();
+}
+
+camera_ptr gl_renderer::new_camera()
+{
+    return std::make_unique<gl_camera>();
+}
+
 void gl_renderer::clear(const color color)
 {
     glClearColor(color.r, color.g, color.b, color.a);

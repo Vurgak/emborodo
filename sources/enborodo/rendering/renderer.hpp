@@ -3,10 +3,12 @@
 #include <memory>
 
 #include <enborodo/configuration.hpp>
+#include <enborodo/rendering/camera.hpp>
 #include <enborodo/rendering/renderer_backend.hpp>
 #include <enborodo/rendering/color.hpp>
 #include <enborodo/rendering/model.hpp>
 #include <enborodo/rendering/shader.hpp>
+#include <enborodo/rendering/texture.hpp>
 
 namespace en
 {
@@ -22,6 +24,10 @@ public:
     virtual ~renderer() = default;
 
     virtual shader_ptr new_shader() = 0;
+
+    virtual camera_ptr new_camera() = 0;
+
+    virtual texture_ptr new_texture() = 0;
 
     virtual model_ptr new_model() = 0;
 

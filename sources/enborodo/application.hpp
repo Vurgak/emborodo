@@ -22,7 +22,7 @@ public:
 protected:
     virtual void update(float delta_time) = 0;
     virtual void render() const = 0;
-    virtual void render_gui() const = 0;
+    virtual void render_gui() = 0;
 
     std::unique_ptr<window> m_window = nullptr;
     std::unique_ptr<renderer> m_renderer = nullptr;

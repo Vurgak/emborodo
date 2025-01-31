@@ -15,6 +15,10 @@ public:
 
     model_ptr new_model() override;
 
+    texture_ptr new_texture() override;
+
+    camera_ptr new_camera() override;
+
     void clear(color color) override;
 
     void render(const shader& shader, const model& model, const texture& texture) const override;
