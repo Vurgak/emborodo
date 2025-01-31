@@ -50,7 +50,6 @@ void gl_renderer::render(const shader& shader, const model& model, const texture
     glBindTexture(GL_TEXTURE_2D, _texture.get_handle());
     glBindVertexArray(_model.get_vertex_array_handle());
     glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, nullptr);
-    glDrawArrays(GL_TRIANGLES, 0, index_count);
 }
 
 void gl_renderer::set_camera(camera& camera)
