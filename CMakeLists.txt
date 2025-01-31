@@ -8,7 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include(cmake/CPM.cmake)
+CPMAddPackage("gh:boostorg/pfr#2.2.0")
 CPMAddPackage("gh:Neargye/magic_enum#v0.9.7")
+CPMAddPackage("gh:marzer/tomlplusplus@3.4.0")
 CPMAddPackage(
         NAME assimp
         GITHUB_REPOSITORY assimp/assimp
@@ -33,7 +35,7 @@ file(GLOB_RECURSE ENBORODO_SOURCES CONFIGURE_DEPENDS sources/enborodo/*.cpp sour
 add_library(enborodo)
 target_sources(enborodo PRIVATE ${ENBORODO_SOURCES})
 target_include_directories(enborodo PUBLIC sources)
-target_link_libraries(enborodo PUBLIC assimp glad glfw glm::glm imgui magic_enum::magic_enum stb)
+target_link_libraries(enborodo PUBLIC assimp glad glfw glm::glm imgui magic_enum::magic_enum boost_pfr stb tomlplusplus::tomlplusplus)
 
 if (BUILD_SHARED_LIBS)
     target_compile_definitions(enborodo PRIVATE EN_SHARED)
