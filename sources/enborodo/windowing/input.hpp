@@ -160,15 +160,20 @@ public:
 
     virtual void update() = 0;
 
+    /// Checks whether a key was just pressed.
     [[nodiscard]]
     virtual bool is_key_pressed(key key) = 0;
 
+    /// Checks whether a key was just released.
     [[nodiscard]]
     virtual bool is_key_released(key key) = 0;
 
+    /// Checks whether a key is being held down.
     [[nodiscard]]
     virtual bool is_key_down(key key) = 0;
 
+    /// Checks whether a key is not being pressed.
+    [[nodiscard]]
     [[nodiscard]]
     virtual bool is_key_up(key key) = 0;
 
@@ -180,24 +185,31 @@ public:
     [[nodiscard]]
     virtual glm::ivec2 get_mouse_delta() = 0;
 
+    /// Gets how much mouse scrolls were moved since last frame.
     [[nodiscard]]
     virtual glm::ivec2 get_scroll_movement() = 0;
 
+    /// Gets how much horizontal mouse scroll was moved since last frame.
     [[nodiscard]]
     virtual int get_horizontal_scroll_movement() = 0;
 
+    /// Gets how much vertical mouse scroll was moved since last frame.
     [[nodiscard]]
     virtual int get_vertical_scroll_movement() = 0;
 
+    /// Checks whether a mouse button was just pressed.
     [[nodiscard]]
     virtual bool is_button_pressed(button button) = 0;
 
+    /// Checks whether a mouse button was just released.
     [[nodiscard]]
     virtual bool is_button_released(button button) = 0;
 
+    /// Checks whether a mouse button is being held down.
     [[nodiscard]]
     virtual bool is_button_down(button button) = 0;
 
+    /// Checks whether a mouse button is not being pressed.
     [[nodiscard]]
     virtual bool is_button_up(button button) = 0;
 };

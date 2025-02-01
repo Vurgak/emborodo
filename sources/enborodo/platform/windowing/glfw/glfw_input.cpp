@@ -1,7 +1,5 @@
 #include "glfw_input.hpp"
 
-#include <iostream>
-
 #include <glfw/glfw3.h>
 
 #include <enborodo/platform/windowing/glfw/glfw_window.hpp>

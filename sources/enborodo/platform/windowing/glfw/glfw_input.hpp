@@ -20,26 +20,21 @@ public:
 
     void update() override;
 
-    /// Checks whether a key was just pressed.
     [[nodiscard]]
     bool is_key_pressed(key key) override;
 
-    /// Checks whether a key was just released.
     [[nodiscard]]
     bool is_key_released(key key) override;
 
-    /// Checks whether a key is being held down.
     [[nodiscard]]
     bool is_key_down(key key) override;
 
-    /// Checks whether a key is not being pressed.
     [[nodiscard]]
     bool is_key_up(key key) override;
 
     [[nodiscard]]
     glm::ivec2 get_mouse_position() override;
 
-    /// Gets the
     [[nodiscard]]
     glm::ivec2 get_mouse_delta() override;
 
@@ -75,7 +70,6 @@ private:
     void set_mouse_position(glm::ivec2 position);
     void set_mouse_scroll_movement(glm::ivec2 scroll_movement);
 
-private:
     std::array<key_state, magic_enum::enum_count<key>()> m_keys{};
     std::array<key_state, magic_enum::enum_count<button>()> m_buttons{};
     glm::ivec2 m_mouse_position{};
