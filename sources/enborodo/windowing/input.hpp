@@ -7,7 +7,7 @@
 namespace en
 {
 
-enum class key
+enum class key : short
 {
     space,
     apostrophe,
@@ -131,11 +131,26 @@ enum class key
     unknown,
 };
 
-enum class button
+enum class button : char
 {
     left,
     middle,
     right,
+    b4,
+    b5,
+    b6,
+    b7,
+    b8,
+
+    unknown,
+};
+
+enum key_state : char
+{
+    down,
+    pressed,
+    released,
+    up,
 };
 
 class input
@@ -164,16 +179,16 @@ public:
     virtual float get_mouse_scroll() = 0;
 
     [[nodiscard]]
-    virtual bool is_button_pressed() = 0;
+    virtual bool is_button_pressed(button button) = 0;
 
     [[nodiscard]]
-    virtual bool is_button_released() = 0;
+    virtual bool is_button_released(button button) = 0;
 
     [[nodiscard]]
-    virtual bool is_button_down() = 0;
+    virtual bool is_button_down(button button) = 0;
 
     [[nodiscard]]
-    virtual bool is_button_up() = 0;
+    virtual bool is_button_up(button button) = 0;
 };
 
 using input_ptr = std::unique_ptr<input>;

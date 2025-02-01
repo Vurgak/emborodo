@@ -133,23 +133,44 @@ en::key convert_keycode_to_key(const int keycode)
     }
 }
 
-void handle_key_event(GLFWwindow* handle, const int keycode, [[maybe_unused]] int scancode, int action, int mods)
+en::button convert_button(const int button)
 {
-    const auto window = static_cast<en::glfw_window*>(glfwGetWindowUserPointer(handle));
-    auto& input = dynamic_cast<en::glfw_input&>(window->get_input());
+      switch (button)
+    {
+        case GLFW_MOUSE_BUTTON_LEFT: return en::button::left;
+        case GLFW_MOUSE_BUTTON_RIGHT: return en::button::right;
+        case GLFW_MOUSE_BUTTON_MIDDLE: return en::button::middle;
+        case GLFW_MOUSE_BUTTON_4: return en::button::b4;
+        case GLFW_MOUSE_BUTTON_5: return en::button::b5;
+        case GLFW_MOUSE_BUTTON_6: return en::button::b6;
+        case GLFW_MOUSE_BUTTON_7: return en::button::b7;
+        case GLFW_MOUSE_BUTTON_8: return en::button::b8;
+        default: return en::button::unknown;
+    }
+}
+
+}
+
+namespace en
+{
+
+static void handle_key_event(GLFWwindow* handle, const int keycode, [[maybe_unused]] int scancode, const int action, [[maybe_unused]] int mods)
+{
+    const auto window = static_cast<glfw_window*>(glfwGetWindowUserPointer(handle));
+    auto& input = dynamic_cast<glfw_input&>(window->get_input());
 
     const auto key = convert_keycode_to_key(keycode);
-    if (key == en::key::unknown)
+    if (key == key::unknown)
         return;
 
     switch (action)
     {
         case GLFW_PRESS:
-            input.set_key_pressed(key);
+            input.set_key_state(key, pressed);
             break;
 
         case GLFW_RELEASE:
-            input.set_key_released(key);
+            input.set_key_state(key, released);
             break;
 
         case GLFW_REPEAT:
@@ -160,29 +181,66 @@ void handle_key_event(GLFWwindow* handle, const int keycode, [[maybe_unused]] in
     }
 }
 
-}
-
-namespace en
+static void handle_button_event(GLFWwindow* handle, const int glfw_button, const int action, [[maybe_unused]] int mods)
 {
+    const auto window = static_cast<glfw_window*>(glfwGetWindowUserPointer(handle));
+    auto& input = dynamic_cast<glfw_input&>(window->get_input());
+
+    const auto button = convert_button(glfw_button);
+    if (button == button::unknown)
+        return;
+
+    switch (action)
+    {
+        case GLFW_PRESS:
+            input.set_button_state(button, pressed);
+        break;
+
+        case GLFW_RELEASE:
+            input.set_button_state(button, released);
+        break;
+
+        case GLFW_REPEAT:
+            break;
+
+        default:
+            assert(false);
+    }
+}
 
 glfw_input::glfw_input(glfw_window& window)
 {
     m_keys.fill(up);
+    m_buttons.fill(up);
 
-    glfwSetKeyCallback(static_cast<GLFWwindow*>(window.get_handle()), handle_key_event);
+    auto* handle = static_cast<GLFWwindow*>(window.get_handle());
+    glfwSetKeyCallback(handle, handle_key_event);
+    glfwSetMouseButtonCallback(handle, handle_button_event);
 }
 
 void glfw_input::update()
 {
-    for (int i = 0; i < m_keys.size(); ++i)
+    for (auto& key_state : m_keys)
     {
-        if (const auto key_state = m_keys[i]; key_state == pressed)
+        if (key_state == pressed)
         {
-            m_keys[i] = down;
+            key_state = down;
         }
         else if (key_state == released)
         {
-            m_keys[i] = up;
+            key_state = up;
+        }
+    }
+
+    for (auto& button_state : m_buttons)
+    {
+        if (button_state == pressed)
+        {
+            button_state = down;
+        }
+        else if (button_state == released)
+        {
+            button_state = up;
         }
     }
 }
@@ -219,34 +277,36 @@ float glfw_input::get_mouse_scroll()
     throw std::exception{"function not implemented"};
 }
 
-bool glfw_input::is_button_pressed()
+bool glfw_input::is_button_pressed(button button)
 {
-    throw std::exception{"function not implemented"};
+    return m_buttons[static_cast<int>(button)] == pressed;
 }
 
-bool glfw_input::is_button_released()
+bool glfw_input::is_button_released(button button)
 {
-    throw std::exception{"function not implemented"};
+    return m_buttons[static_cast<char>(button)] == released;
 }
 
-bool glfw_input::is_button_down()
+bool glfw_input::is_button_down(button button)
 {
-    throw std::exception{"function not implemented"};
+    const auto button_state = m_buttons[static_cast<char>(button)];
+    return button_state == pressed || button_state == down;
 }
 
-bool glfw_input::is_button_up()
+bool glfw_input::is_button_up(button button)
 {
-    throw std::exception{"function not implemented"};
+    const auto button_state = m_buttons[static_cast<char>(button)];
+    return button_state == released || button_state == up;
 }
 
-void glfw_input::set_key_pressed(key key)
+void glfw_input::set_key_state(const key key, const key_state state)
 {
-    m_keys[static_cast<int>(key)] = pressed;
+    m_keys[static_cast<short>(key)] = state;
 }
 
-void glfw_input::set_key_released(key key)
+void glfw_input::set_button_state(const button button, const key_state state)
 {
-    m_keys[static_cast<int>(key)] = released;
+    m_buttons[static_cast<char>(button)] = state;
 }
 
 }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <unordered_map>
-
 #include <enborodo/windowing/input.hpp>
 
 #include <magic_enum/magic_enum.hpp>
+
+struct GLFWwindow;
 
 namespace en
 {
@@ -41,31 +41,27 @@ public:
     float get_mouse_scroll() override;
 
     [[nodiscard]]
-    bool is_button_pressed() override;
+    bool is_button_pressed(button button) override;
 
     [[nodiscard]]
-    bool is_button_released() override;
+    bool is_button_released(button button) override;
 
     [[nodiscard]]
-    bool is_button_down() override;
+    bool is_button_down(button button) override;
 
     [[nodiscard]]
-    bool is_button_up() override;
-
-    void set_key_pressed(key key);
-
-    void set_key_released(key key);
+    bool is_button_up(button button) override;
 
 private:
-    enum key_state
-    {
-        down,
-        pressed,
-        released,
-        up,
-    };
+    friend void handle_key_event(GLFWwindow*, int, int, int, int);
+    friend void handle_button_event(GLFWwindow*, int, int, int);
+
+    void set_key_state(key key, key_state state);
+
+    void set_button_state(button button, key_state state);
 
     std::array<key_state, magic_enum::enum_count<key>()> m_keys{};
+    std::array<key_state, magic_enum::enum_count<button>()> m_buttons{};
 };
 
 using glfw_input_ptr = std::unique_ptr<glfw_input>;
