@@ -172,8 +172,13 @@ public:
     [[nodiscard]]
     virtual bool is_key_up(key key) = 0;
 
+    /// Gets the current mouse position in the window.
     [[nodiscard]]
-    virtual glm::vec2 get_mouse_delta() = 0;
+    virtual glm::ivec2 get_mouse_position() = 0;
+
+    /// Gets the offset that mouse moved since last frame.
+    [[nodiscard]]
+    virtual glm::ivec2 get_mouse_delta() = 0;
 
     [[nodiscard]]
     virtual float get_mouse_scroll() = 0;

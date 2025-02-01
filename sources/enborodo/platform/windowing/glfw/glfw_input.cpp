@@ -1,5 +1,7 @@
 #include "glfw_input.hpp"
 
+#include <iostream>
+
 #include <glfw/glfw3.h>
 
 #include <enborodo/platform/windowing/glfw/glfw_window.hpp>
@@ -208,6 +210,15 @@ static void handle_button_event(GLFWwindow* handle, const int glfw_button, const
     }
 }
 
+static void handle_mouse_movement(GLFWwindow* handle, const double horizontal_position, const double vertical_position)
+{
+    const auto window = static_cast<glfw_window*>(glfwGetWindowUserPointer(handle));
+    auto& input = dynamic_cast<glfw_input&>(window->get_input());
+
+    const glm::ivec2 current_position{static_cast<int>(horizontal_position), static_cast<int>(vertical_position)};
+    input.set_mouse_position(current_position);
+}
+
 glfw_input::glfw_input(glfw_window& window)
 {
     m_keys.fill(up);
@@ -216,6 +227,7 @@ glfw_input::glfw_input(glfw_window& window)
     auto* handle = static_cast<GLFWwindow*>(window.get_handle());
     glfwSetKeyCallback(handle, handle_key_event);
     glfwSetMouseButtonCallback(handle, handle_button_event);
+    glfwSetCursorPosCallback(handle, handle_mouse_movement);
 }
 
 void glfw_input::update()
@@ -243,6 +255,8 @@ void glfw_input::update()
             button_state = up;
         }
     }
+
+    m_mouse_delta = glm::vec2{0.0f};
 }
 
 bool glfw_input::is_key_pressed(const key key)
@@ -267,9 +281,14 @@ bool glfw_input::is_key_up(const key key)
     return key_state == released || key_state == up;
 }
 
-glm::vec2 glfw_input::get_mouse_delta()
+glm::ivec2 glfw_input::get_mouse_position()
 {
-    throw std::exception{"function not implemented"};
+    return m_mouse_position;
+}
+
+glm::ivec2 glfw_input::get_mouse_delta()
+{
+    return m_mouse_delta;
 }
 
 float glfw_input::get_mouse_scroll()
@@ -307,6 +326,12 @@ void glfw_input::set_key_state(const key key, const key_state state)
 void glfw_input::set_button_state(const button button, const key_state state)
 {
     m_buttons[static_cast<char>(button)] = state;
+}
+
+void glfw_input::set_mouse_position(glm::ivec2 position)
+{
+    m_mouse_delta = position - m_mouse_position;
+    m_mouse_position = position;
 }
 
 }
