@@ -156,6 +156,11 @@ en::button convert_button(const int button)
 namespace en
 {
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4211)
+#endif
+
 static void handle_key_event(GLFWwindow* handle, const int keycode, [[maybe_unused]] int scancode, const int action, [[maybe_unused]] int mods)
 {
     const auto window = static_cast<glfw_window*>(glfwGetWindowUserPointer(handle));
@@ -227,6 +232,10 @@ static void handle_scroll_movement(GLFWwindow* handle, const double horizontal_s
     const glm::ivec2 scroll_movement{static_cast<int>(horizontal_scroll), static_cast<int>(vertical_scroll)};
     input.set_mouse_scroll_movement(scroll_movement);
 }
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 glfw_input::glfw_input(glfw_window& window)
 {
