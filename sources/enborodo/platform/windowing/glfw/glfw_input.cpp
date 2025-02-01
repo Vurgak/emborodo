@@ -219,6 +219,15 @@ static void handle_mouse_movement(GLFWwindow* handle, const double horizontal_po
     input.set_mouse_position(current_position);
 }
 
+static void handle_scroll_movement(GLFWwindow* handle, const double horizontal_scroll, const double vertical_scroll)
+{
+    const auto window = static_cast<glfw_window*>(glfwGetWindowUserPointer(handle));
+    auto& input = dynamic_cast<glfw_input&>(window->get_input());
+
+    const glm::ivec2 scroll_movement{static_cast<int>(horizontal_scroll), static_cast<int>(vertical_scroll)};
+    input.set_mouse_scroll_movement(scroll_movement);
+}
+
 glfw_input::glfw_input(glfw_window& window)
 {
     m_keys.fill(up);
@@ -228,6 +237,7 @@ glfw_input::glfw_input(glfw_window& window)
     glfwSetKeyCallback(handle, handle_key_event);
     glfwSetMouseButtonCallback(handle, handle_button_event);
     glfwSetCursorPosCallback(handle, handle_mouse_movement);
+    glfwSetScrollCallback(handle, handle_scroll_movement);
 }
 
 void glfw_input::update()
@@ -257,6 +267,7 @@ void glfw_input::update()
     }
 
     m_mouse_delta = glm::vec2{0.0f};
+    m_scroll_movement = glm::ivec2{0};
 }
 
 bool glfw_input::is_key_pressed(const key key)
@@ -291,9 +302,19 @@ glm::ivec2 glfw_input::get_mouse_delta()
     return m_mouse_delta;
 }
 
-float glfw_input::get_mouse_scroll()
+glm::ivec2 glfw_input::get_scroll_movement()
 {
-    throw std::exception{"function not implemented"};
+    return m_scroll_movement;
+}
+
+int glfw_input::get_horizontal_scroll_movement()
+{
+    return m_scroll_movement.x;
+}
+
+int glfw_input::get_vertical_scroll_movement()
+{
+    return m_scroll_movement.y;
 }
 
 bool glfw_input::is_button_pressed(button button)
@@ -328,10 +349,15 @@ void glfw_input::set_button_state(const button button, const key_state state)
     m_buttons[static_cast<char>(button)] = state;
 }
 
-void glfw_input::set_mouse_position(glm::ivec2 position)
+void glfw_input::set_mouse_position(const glm::ivec2 position)
 {
     m_mouse_delta = position - m_mouse_position;
     m_mouse_position = position;
+}
+
+void glfw_input::set_mouse_scroll_movement(const glm::ivec2 scroll_movement)
+{
+    m_scroll_movement = scroll_movement;
 }
 
 }

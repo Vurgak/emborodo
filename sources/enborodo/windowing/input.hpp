@@ -181,7 +181,13 @@ public:
     virtual glm::ivec2 get_mouse_delta() = 0;
 
     [[nodiscard]]
-    virtual float get_mouse_scroll() = 0;
+    virtual glm::ivec2 get_scroll_movement() = 0;
+
+    [[nodiscard]]
+    virtual int get_horizontal_scroll_movement() = 0;
+
+    [[nodiscard]]
+    virtual int get_vertical_scroll_movement() = 0;
 
     [[nodiscard]]
     virtual bool is_button_pressed(button button) = 0;
