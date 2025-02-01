@@ -10,6 +10,8 @@
 namespace en
 {
 
+class input;
+
 class EN_API window
 {
 public:
@@ -30,6 +32,9 @@ public:
     virtual bool is_open() = 0;
 
     virtual void poll_events() = 0;
+
+    [[nodiscard]]
+    virtual input& get_input() = 0;
 
     /// Renders everything to the screen.
     virtual void display() = 0;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <enborodo/rendering/color.hpp>
+#include <enborodo/platform/windowing/glfw/glfw_input.hpp>
 #include <enborodo/windowing/window.hpp>
 
 struct GLFWwindow;
@@ -25,6 +25,9 @@ public:
 
     void poll_events() override;
 
+    [[nodiscard]]
+    input& get_input() override;
+
     void display() override;
 
     [[nodiscard]]
@@ -34,14 +37,15 @@ public:
     void* get_handle() override;
 
 private:
-    void open_with_opengl(std::string_view title);
+    bool open_with_opengl(std::string_view title);
 
     static int s_instance_count;
 
-    GLFWwindow* m_handle = nullptr;
-
     const window_configuration& m_configuration;
     const rendering_configuration& m_rendering_configuration;
+
+    GLFWwindow* m_handle = nullptr;
+    glfw_input_ptr m_input = nullptr;
 };
 
 }

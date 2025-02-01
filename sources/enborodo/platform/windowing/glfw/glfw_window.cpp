@@ -95,12 +95,23 @@ void glfw_window::open(const std::string_view title)
         s_instance_count++;
     }
 
+    bool opened = false;
     switch (m_rendering_configuration.backend)
     {
         case renderer_backend::opengl:
-            open_with_opengl(title);
+            opened = open_with_opengl(title);
             break;
     }
+
+    if (!opened)
+    {
+        // TODO: Use logger.
+        const char* message;
+        glfwGetError(&message);
+        std::println("error: failed to open the game window: {}", message);
+    }
+
+    m_input = std::make_unique<glfw_input>(*this);
 }
 
 void glfw_window::close()
@@ -108,6 +119,7 @@ void glfw_window::close()
     if (!is_open())
         return;
 
+    m_input = nullptr;
     glfwDestroyWindow(m_handle);
 
     s_instance_count--;
@@ -122,7 +134,13 @@ bool glfw_window::is_open()
 
 void glfw_window::poll_events()
 {
+    m_input->update();
     glfwPollEvents();
+}
+
+input& glfw_window::get_input()
+{
+    return *m_input;
 }
 
 void glfw_window::display()
@@ -140,7 +158,7 @@ void* glfw_window::get_handle()
     return m_handle;
 }
 
-void glfw_window::open_with_opengl(const std::string_view title)
+bool glfw_window::open_with_opengl(const std::string_view title)
 {
     glfwWindowHint(GLFW_RESIZABLE, m_configuration.resizable);
     glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
@@ -153,6 +171,10 @@ void glfw_window::open_with_opengl(const std::string_view title)
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, m_rendering_configuration.debug);
 
     m_handle = glfwCreateWindow(m_configuration.width, m_configuration.height, title.data(), nullptr, nullptr);
+    if (!m_handle)
+        return false;
+
+    glfwSetWindowUserPointer(m_handle, this);
     glfwMakeContextCurrent(m_handle);
     glfwSwapInterval(m_configuration.vsync ? 1 : 0);
 
@@ -175,6 +197,8 @@ void glfw_window::open_with_opengl(const std::string_view title)
             std::println(stderr, "Error: Failed to initialize OpenGL debug logging");
         }
     }
+
+    return true;
 }
 
 }
