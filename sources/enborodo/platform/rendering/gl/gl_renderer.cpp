@@ -49,7 +49,6 @@ void gl_renderer::render(const shader& shader, const model& model, const texture
     const auto& program = dynamic_cast<const gl_shader&>(shader).get_program_handle();
     const auto& _model = dynamic_cast<const gl_model&>(model);
     const auto& _texture = dynamic_cast<const gl_texture&>(texture);
-    const auto index_count = _model.get_index_count();
 
     glUseProgram(program);
     shader.set_uniform("u_Model", glm::mat4(1.0f));
@@ -59,7 +58,7 @@ void gl_renderer::render(const shader& shader, const model& model, const texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _texture.get_handle());
     glBindVertexArray(_model.get_vertex_array_handle());
-    glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(_model.get_index_buffer().count()), GL_UNSIGNED_INT, nullptr);
 }
 
 void gl_renderer::set_camera(camera& camera)

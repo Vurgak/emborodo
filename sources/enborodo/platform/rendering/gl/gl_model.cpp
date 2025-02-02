@@ -12,18 +12,18 @@ void gl_model::load_from_mesh(const mesh& mesh)
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
 
-    vertex_buffer.load(mesh.get_vertices());
-
-    const auto indices = mesh.get_indices();
-    glGenBuffers(1, &m_ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(indices.size() * sizeof(indices[0])), indices.data(), GL_STATIC_DRAW);
-    m_index_count = indices.size();
+    m_vertex_buffer.load(mesh.get_vertices());
+    m_index_buffer.load(mesh.get_indices());
 }
 
-std::size_t gl_model::get_index_count() const noexcept
+const gl_vertex_buffer& gl_model::get_vertex_buffer() const noexcept
 {
-    return m_index_count;
+    return m_vertex_buffer;
+}
+
+const gl_index_buffer& gl_model::get_index_buffer() const noexcept
+{
+    return m_index_buffer;
 }
 
 unsigned int gl_model::get_vertex_array_handle() const

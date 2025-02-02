@@ -7,7 +7,7 @@ namespace en
 
 class mesh;
 
-class model
+class EN_API model
 {
 public:
     virtual ~model() = default;

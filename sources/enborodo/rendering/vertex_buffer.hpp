@@ -2,10 +2,12 @@
 
 #include <memory>
 
+#include <enborodo/configuration.hpp>
+
 namespace en
 {
 
-class vertex_buffer
+class EN_API vertex_buffer
 {
 public:
     virtual ~vertex_buffer() = default;

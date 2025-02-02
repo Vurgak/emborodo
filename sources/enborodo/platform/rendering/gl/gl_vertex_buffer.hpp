@@ -7,7 +7,7 @@
 namespace en
 {
 
-class gl_vertex_buffer final : public vertex_buffer
+class EN_API gl_vertex_buffer final : public vertex_buffer
 {
 public:
     ~gl_vertex_buffer() override;
