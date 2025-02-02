@@ -11,6 +11,7 @@ include(cmake/CPM.cmake)
 CPMAddPackage("gh:boostorg/pfr#2.2.0")
 CPMAddPackage("gh:Neargye/magic_enum#v0.9.7")
 CPMAddPackage("gh:marzer/tomlplusplus@3.4.0")
+CPMAddPackage("gh:tinyobjloader/tinyobjloader@1.0.6")
 
 include(FetchContent)
 include(cmake/Glfw.cmake)
@@ -30,7 +31,7 @@ file(GLOB_RECURSE ENBORODO_SOURCES CONFIGURE_DEPENDS sources/enborodo/*.cpp sour
 add_library(enborodo)
 target_sources(enborodo PRIVATE ${ENBORODO_SOURCES})
 target_include_directories(enborodo PUBLIC sources)
-target_link_libraries(enborodo PUBLIC glad glfw glm::glm imgui magic_enum::magic_enum boost_pfr stb tomlplusplus::tomlplusplus)
+target_link_libraries(enborodo PUBLIC glad glfw glm::glm imgui magic_enum::magic_enum boost_pfr stb tinyobjloader tomlplusplus::tomlplusplus)
 
 if (BUILD_SHARED_LIBS)
     target_compile_definitions(enborodo PRIVATE EN_SHARED)
