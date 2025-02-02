@@ -1,4 +1,5 @@
 #pragma once
+#include <enborodo/platform/rendering/gl/gl_vertex_buffer.hpp>
 #include <enborodo/rendering/model.hpp>
 
 namespace en
@@ -11,16 +12,19 @@ public:
 
     void load_from_mesh(const mesh& mesh) override;
 
-    const mesh* get_mesh() const override;
+    [[nodiscard]]
+    std::size_t get_index_count() const noexcept;
 
+    [[nodiscard]]
     unsigned int get_vertex_array_handle() const;
 
 private:
     unsigned int m_vao = 0;
-    unsigned int m_vbo = 0;
-    unsigned int m_ebo = 0;
 
-    const mesh* m_mesh = nullptr;
+    gl_vertex_buffer vertex_buffer;
+
+    unsigned int m_ebo = 0;
+    std::size_t m_index_count = 0;
 };
 
 }

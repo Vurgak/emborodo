@@ -48,8 +48,8 @@ void gl_renderer::render(const shader& shader, const model& model, const texture
 
     const auto& program = dynamic_cast<const gl_shader&>(shader).get_program_handle();
     const auto& _model = dynamic_cast<const gl_model&>(model);
-    const auto index_count = static_cast<GLsizei>(_model.get_mesh()->get_indices().size());
     const auto& _texture = dynamic_cast<const gl_texture&>(texture);
+    const auto index_count = _model.get_index_count();
 
     glUseProgram(program);
     shader.set_uniform("u_Model", glm::mat4(1.0f));
