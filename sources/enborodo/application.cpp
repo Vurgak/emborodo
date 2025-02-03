@@ -3,7 +3,6 @@
 #include <chrono>
 
 #include <enborodo/platform/gui/imgui/imgui_gui_controller.hpp>
-#include <enborodo/platform/windowing/glfw/glfw_window.hpp>
 
 namespace en
 {

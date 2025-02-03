@@ -11,9 +11,10 @@ namespace en
 
 void image::load_from_file(const std::string_view file_path)
 {
-    int width, height, channels;
+    constexpr int channels = STBI_rgb;
+    int width, height;
     stbi_set_flip_vertically_on_load(true);
-    stbi_uc* data = stbi_load(file_path.data(), &width, &height, &channels, STBI_rgb_alpha);
+    stbi_uc* data = stbi_load(file_path.data(), &width, &height, nullptr, channels);
     if (!data)
     {
         std::println("failed to load image \"{}\": {}", file_path, stbi_failure_reason());
@@ -44,6 +45,11 @@ std::size_t image::get_width() const
 std::size_t image::get_height() const
 {
     return m_height;
+}
+
+std::size_t image::get_channels() const
+{
+    return m_channels;
 }
 
 }

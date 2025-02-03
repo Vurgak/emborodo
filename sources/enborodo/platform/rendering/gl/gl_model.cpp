@@ -14,6 +14,10 @@ void gl_model::load_from_mesh(const mesh& mesh)
 
     m_vertex_buffer.load(mesh.get_vertices());
     m_index_buffer.load(mesh.get_indices());
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 const gl_vertex_buffer& gl_model::get_vertex_buffer() const noexcept

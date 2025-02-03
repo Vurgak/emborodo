@@ -19,14 +19,14 @@ game::game(const std::string_view name, en::application_configuration& configura
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
 
     m_camera = m_renderer->new_camera();
-    m_camera->set_position({1.0f, 2.0f, 3.0f});
+    m_camera->set_position({2.0f, 2.0f, -2.0f});
     m_camera->set_target({0.0f, 0.0f, 0.0f});
     m_renderer->set_camera(*m_camera);
 
     m_texture = m_renderer->new_texture();
-    m_texture->load_from_file(EM_ASSETS_PATH "textures/logo.png");
+    m_texture->load_from_file(EM_ASSETS_PATH "textures/viking_room.png");
 
-    m_quad = en::mesh::generate_quad();
+    m_quad = en::mesh::load_from_file(EM_ASSETS_PATH "models/viking_room.obj");
     m_model = m_renderer->new_model();
     m_model->load_from_mesh(m_quad);
 }

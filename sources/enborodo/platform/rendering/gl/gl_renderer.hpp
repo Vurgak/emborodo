@@ -11,6 +11,8 @@ class texture;
 class EN_API gl_renderer final : public renderer
 {
 public:
+    gl_renderer();
+
     shader_ptr new_shader() override;
 
     model_ptr new_model() override;

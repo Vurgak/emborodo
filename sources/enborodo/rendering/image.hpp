@@ -23,6 +23,9 @@ public:
     [[nodiscard]]
     std::size_t get_height() const;
 
+    [[nodiscard]]
+    std::size_t get_channels() const;
+
 private:
     std::size_t m_width = 0;
     std::size_t m_height = 0;
