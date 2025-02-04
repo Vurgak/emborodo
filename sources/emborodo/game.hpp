@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include <emborodo/game_objects/third_person_camera.hpp>
+
 #include <enborodo/application.hpp>
 #include <enborodo/logging/logger.hpp>
 #include <enborodo/rendering/camera.hpp>
@@ -32,8 +34,14 @@ protected:
 private:
     void draw_debug_window(en::gui_window& window);
 
+    bool m_mouse_shown = false;
+
     en::shader_ptr m_shader;
+
     en::camera_ptr m_camera;
+    std::unique_ptr<third_person_camera> m_main_camera;
+
+    game_object m_player{};
 
     en::texture_ptr m_texture;
     en::mesh m_quad;

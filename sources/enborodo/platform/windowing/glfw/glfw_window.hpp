@@ -23,10 +23,17 @@ public:
 
     bool is_open() override;
 
-    void poll_events() override;
+    [[nodiscard]]
+    glm::ivec2 get_window_size() const override;
+
+    void set_cursor_enabled(bool enabled) override;
+
+    void set_cursor_position(int horizontal_position, int vertical_position) override;
 
     [[nodiscard]]
     input& get_input() override;
+
+    void poll_events() override;
 
     void display() override;
 
@@ -39,6 +46,7 @@ public:
 private:
     bool open_with_opengl(std::string_view title);
 
+private:
     static int s_instance_count;
 
     const window_configuration& m_configuration;

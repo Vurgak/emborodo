@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <string_view>
+
+#include <glm/vec2.hpp>
 
 #include <enborodo/configuration.hpp>
 #include <enborodo/configuration/application_configuration.hpp>
@@ -31,10 +32,17 @@ public:
     [[nodiscard]]
     virtual bool is_open() = 0;
 
-    virtual void poll_events() = 0;
+    [[nodiscard]]
+    virtual glm::ivec2 get_window_size() const = 0;
+
+    virtual void set_cursor_enabled(bool enabled) = 0;
+
+    virtual void set_cursor_position(int horizontal_position, int vertical_position) = 0;
 
     [[nodiscard]]
     virtual input& get_input() = 0;
+
+    virtual void poll_events() = 0;
 
     /// Renders everything to the screen.
     virtual void display() = 0;

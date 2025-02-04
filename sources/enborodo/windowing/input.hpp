@@ -174,7 +174,6 @@ public:
 
     /// Checks whether a key is not being pressed.
     [[nodiscard]]
-    [[nodiscard]]
     virtual bool is_key_up(key key) = 0;
 
     /// Gets the current mouse position in the window.

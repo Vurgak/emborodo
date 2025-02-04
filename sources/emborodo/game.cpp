@@ -5,6 +5,7 @@
 #include <enborodo/gui/gui_window.hpp>
 #include <enborodo/logging/sinks/terminal_sink.hpp>
 #include <enborodo/platform/gui/imgui/imgui_gui_controller.hpp>
+#include <enborodo/windowing/input.hpp>
 
 namespace em
 {
@@ -12,6 +13,8 @@ namespace em
 game::game(const std::string_view name, en::application_configuration& configuration) :
     application{name, configuration}
 {
+    m_window->set_cursor_enabled(false);
+
     m_logger.add_sink<en::terminal_sink>();
     m_gui_controller->load_font(EM_ASSETS_PATH "fonts/OpenSans-Medium.ttf", 20);
 
@@ -19,9 +22,9 @@ game::game(const std::string_view name, en::application_configuration& configura
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
 
     m_camera = m_renderer->new_camera();
-    m_camera->set_position({2.0f, 2.0f, -2.0f});
-    m_camera->set_target({0.0f, 0.0f, 0.0f});
     m_renderer->set_camera(*m_camera);
+    m_main_camera = std::make_unique<third_person_camera>(*m_camera, m_window->get_input());
+    m_main_camera->set_follow_target(m_player);
 
     m_texture = m_renderer->new_texture();
     m_texture->load_from_file(EM_ASSETS_PATH "textures/viking_room.png");
@@ -31,8 +34,39 @@ game::game(const std::string_view name, en::application_configuration& configura
     m_model->load_from_mesh(m_quad);
 }
 
-void game::update([[maybe_unused]] float delta_time)
+void game::update([[maybe_unused]] const float delta_time)
 {
+    auto& input = m_window->get_input();
+
+    if (input.is_key_released(en::key::escape))
+        m_window->close();
+
+    if (input.is_key_down(en::key::a))
+        m_player.position.x -= 12.0f * delta_time;
+    if (input.is_key_down(en::key::d))
+        m_player.position.x += 12.0f * delta_time;
+
+    if (input.is_key_down(en::key::left_alt))
+    {
+        if (!m_mouse_shown)
+        {
+            m_mouse_shown = true;
+            m_window->set_cursor_enabled(true);
+
+            const auto window_size = m_window->get_window_size();
+            m_window->set_cursor_position(window_size.x / 2, window_size.y / 2);
+        }
+    }
+    else
+    {
+        if (m_mouse_shown)
+        {
+            m_mouse_shown = false;
+            m_window->set_cursor_enabled(false);
+        }
+
+        m_main_camera->update(delta_time);
+    }
 }
 
 void game::render() const

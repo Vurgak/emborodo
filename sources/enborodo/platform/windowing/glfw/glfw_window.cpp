@@ -85,6 +85,13 @@ glfw_window::glfw_window(
 glfw_window::~glfw_window()
 {
     close();
+
+    m_input = nullptr;
+    glfwDestroyWindow(m_handle);
+
+    s_instance_count--;
+    if (!s_instance_count)
+        glfwTerminate();
 }
 
 void glfw_window::open(const std::string_view title)
@@ -119,17 +126,30 @@ void glfw_window::close()
     if (!is_open())
         return;
 
-    m_input = nullptr;
-    glfwDestroyWindow(m_handle);
-
-    s_instance_count--;
-    if (!s_instance_count)
-        glfwTerminate();
+    glfwSetWindowShouldClose(m_handle, true);
 }
 
 bool glfw_window::is_open()
 {
     return m_handle && !glfwWindowShouldClose(m_handle);
+}
+
+glm::ivec2 glfw_window::get_window_size() const
+{
+    glm::ivec2 size;
+    glfwGetWindowSize(m_handle, &size.x, &size.y);
+    return size;
+}
+
+void glfw_window::set_cursor_enabled(const bool enabled)
+{
+    glfwSetInputMode(m_handle, GLFW_CURSOR, enabled ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(m_handle, GLFW_RAW_MOUSE_MOTION, enabled);
+}
+
+void glfw_window::set_cursor_position(const int horizontal_position, const int vertical_position)
+{
+    glfwSetCursorPos(m_handle, horizontal_position, vertical_position);
 }
 
 void glfw_window::poll_events()

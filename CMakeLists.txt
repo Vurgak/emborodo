@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include(cmake/CPM.cmake)
+CPMAddPackage("gh:catchorg/Catch2@3.8.0")
 CPMAddPackage("gh:boostorg/pfr#2.2.0")
 CPMAddPackage("gh:Neargye/magic_enum#v0.9.7")
 CPMAddPackage("gh:marzer/tomlplusplus@3.4.0")
@@ -65,3 +66,16 @@ add_custom_command(
         TARGET emborodo POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:emborodo> $<TARGET_RUNTIME_DLLS:emborodo>
         COMMAND_EXPAND_LISTS)
+
+file(GLOB_RECURSE ENBORODO_TESTS CONFIGURE_DEPENDS tests/enborodo/*.cpp)
+add_executable(enborodo_tests)
+target_sources(enborodo_tests PRIVATE ${ENBORODO_TESTS})
+target_link_libraries(enborodo_tests PRIVATE Catch2::Catch2WithMain enborodo)
+
+add_custom_command(
+        TARGET enborodo_tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:enborodo_tests> $<TARGET_RUNTIME_DLLS:enborodo_tests>
+        COMMAND_EXPAND_LISTS)
+
+enable_testing()
+add_test(enborodo_tests enborodo_tests)
