@@ -14,7 +14,7 @@ public:
 
     void set_position(glm::vec3 position) override;
 
-    void set_target(glm::vec3 target) override;
+    void look_at(glm::vec3 target) override;
 
     const glm::mat4& get_view() override;
 

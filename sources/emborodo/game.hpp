@@ -34,12 +34,12 @@ protected:
 private:
     void draw_debug_window(en::gui_window& window);
 
+    en::input& m_input;
     bool m_mouse_shown = false;
 
     en::shader_ptr m_shader;
 
-    en::camera_ptr m_camera;
-    std::unique_ptr<third_person_camera> m_main_camera;
+    third_person_camera m_camera;
 
     game_object m_player{};
 

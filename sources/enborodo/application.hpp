@@ -26,10 +26,9 @@ protected:
     virtual void render() const = 0;
     virtual void render_gui() = 0;
 
-    std::unique_ptr<window> m_window = nullptr;
-    std::unique_ptr<renderer> m_renderer = nullptr;
-    std::unique_ptr<en::gui_controller> m_gui_controller;
-
+    window_ptr m_window = nullptr;
+    renderer_ptr m_renderer = nullptr;
+    gui_controller_ptr m_gui_controller;
     frame_control m_frame_control{};
     logger m_logger;
 };

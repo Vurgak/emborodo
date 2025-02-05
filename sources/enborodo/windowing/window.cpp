@@ -20,4 +20,14 @@ std::unique_ptr<window> window::create(
     }
 }
 
+std::unique_ptr<window> window::open(
+    const std::string_view title,
+    const window_configuration& window_configuration,
+    const rendering_configuration& rendering_configuration)
+{
+    auto window = create(window_configuration, rendering_configuration);
+    window->open(title);
+    return window;
+}
+
 }

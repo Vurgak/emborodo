@@ -12,13 +12,13 @@ gl_camera::gl_camera()
 
 void gl_camera::set_position(const glm::vec3 position)
 {
-    m_dirty = true;
+    m_dirty = m_dirty || position != m_position;
     m_position = position;
 }
 
-void gl_camera::set_target(glm::vec3 target)
+void gl_camera::look_at(const glm::vec3 target)
 {
-    m_dirty = true;
+    m_dirty = m_dirty || target != m_target;
     m_target = target;
 }
 

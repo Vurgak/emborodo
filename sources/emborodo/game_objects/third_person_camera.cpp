@@ -1,7 +1,6 @@
 #include "third_person_camera.hpp"
 
 #include <algorithm>
-#include <print>
 
 #include <glm/trigonometric.hpp>
 
@@ -11,18 +10,18 @@
 namespace em
 {
 
-third_person_camera::third_person_camera(en::camera& camera, en::input& input) :
-    m_camera{camera}, m_input{input}
+third_person_camera::third_person_camera(en::camera_ptr&& camera, en::input& input) :
+    m_impl{std::move(camera)}, m_input{input}
 {
 }
 
-void third_person_camera::set_follow_target(const game_object& target, const glm::vec3 offset)
+void third_person_camera::set_target(const game_object& target, const glm::vec3 offset)
 {
     m_target = &target;
     m_offset = offset;
 }
 
-void third_person_camera::update(const float delta_time)
+void third_person_camera::update()
 {
     handle_input();
 
@@ -38,8 +37,13 @@ void third_person_camera::update(const float delta_time)
         target.z - offset_y,
     };
 
-    m_camera.set_position(camera_position);
-    m_camera.set_target(m_target->position);
+    m_impl->set_position(camera_position);
+    m_impl->look_at(m_target->position);
+}
+
+en::camera& third_person_camera::get_impl() const
+{
+    return *m_impl;
 }
 
 void third_person_camera::handle_input()

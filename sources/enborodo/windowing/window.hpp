@@ -20,6 +20,11 @@ public:
         const window_configuration& window_configuration,
         const rendering_configuration& rendering_configuration);
 
+    static std::unique_ptr<window> open(
+        std::string_view title,
+        const window_configuration& window_configuration,
+        const rendering_configuration& rendering_configuration);
+
     virtual ~window() = default;
 
     /// Opens a new window if not currently open.
@@ -53,5 +58,7 @@ public:
     [[nodiscard]]
     virtual void* get_handle() = 0;
 };
+
+using window_ptr = std::unique_ptr<window>;
 
 }

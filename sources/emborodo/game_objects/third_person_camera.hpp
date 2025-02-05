@@ -17,13 +17,16 @@ namespace em
 class third_person_camera final : game_object
 {
 public:
-    third_person_camera(en::camera& camera, en::input& input);
+    third_person_camera(en::camera_ptr&& camera, en::input& input);
 
     ~third_person_camera() override = default;
 
-    void set_follow_target(const game_object& target, glm::vec3 offset = glm::vec3{0.0f});
+    void set_target(const game_object& target, glm::vec3 offset = glm::vec3{0.0f});
 
-    void update(float delta_time);
+    void update();
+
+    [[nodiscard]]
+    en::camera& get_impl() const;
 
 private:
     static constexpr float c_camera_sensitivity = 0.2f;
@@ -33,7 +36,7 @@ private:
 
     void handle_input();
 
-    en::camera& m_camera;
+    en::camera_ptr m_impl;
     en::input& m_input;
 
     const game_object* m_target = nullptr; ///< The target to be followed by a camera.

@@ -38,4 +38,6 @@ public:
     virtual void set_camera(camera& camera) = 0;
 };
 
+using renderer_ptr = std::unique_ptr<renderer>;
+
 }

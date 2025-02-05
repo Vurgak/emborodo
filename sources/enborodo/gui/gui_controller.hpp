@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 #include <string>
 
 #include <enborodo/configuration.hpp>
@@ -22,5 +23,7 @@ public:
 
     virtual void draw_window(const std::string& title, std::function<void(gui_window&)> draw_fn) = 0;
 };
+
+using gui_controller_ptr = std::unique_ptr<gui_controller>;
 
 }

@@ -11,7 +11,9 @@ namespace em
 {
 
 game::game(const std::string_view name, en::application_configuration& configuration) :
-    application{name, configuration}
+    application{name, configuration},
+    m_input{m_window->get_input()},
+    m_camera{m_renderer->new_camera(), m_input}
 {
     m_window->set_cursor_enabled(false);
 
@@ -21,10 +23,8 @@ game::game(const std::string_view name, en::application_configuration& configura
     m_shader = m_renderer->new_shader();
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
 
-    m_camera = m_renderer->new_camera();
-    m_renderer->set_camera(*m_camera);
-    m_main_camera = std::make_unique<third_person_camera>(*m_camera, m_window->get_input());
-    m_main_camera->set_follow_target(m_player);
+    m_renderer->set_camera(m_camera.get_impl());
+    m_camera.set_target(m_player);
 
     m_texture = m_renderer->new_texture();
     m_texture->load_from_file(EM_ASSETS_PATH "textures/viking_room.png");
@@ -36,17 +36,16 @@ game::game(const std::string_view name, en::application_configuration& configura
 
 void game::update([[maybe_unused]] const float delta_time)
 {
-    auto& input = m_window->get_input();
-
-    if (input.is_key_released(en::key::escape))
+    if (m_input.is_key_released(en::key::escape))
         m_window->close();
 
-    if (input.is_key_down(en::key::a))
-        m_player.position.x -= 12.0f * delta_time;
-    if (input.is_key_down(en::key::d))
-        m_player.position.x += 12.0f * delta_time;
+    constexpr float move_speed = 8.0f;
+    if (m_input.is_key_down(en::key::a))
+        m_player.position.x -= move_speed * delta_time;
+    if (m_input.is_key_down(en::key::d))
+        m_player.position.x += move_speed * delta_time;
 
-    if (input.is_key_down(en::key::left_alt))
+    if (m_input.is_key_down(en::key::left_alt))
     {
         if (!m_mouse_shown)
         {
@@ -65,7 +64,7 @@ void game::update([[maybe_unused]] const float delta_time)
             m_window->set_cursor_enabled(false);
         }
 
-        m_main_camera->update(delta_time);
+        m_camera.update();
     }
 }
 

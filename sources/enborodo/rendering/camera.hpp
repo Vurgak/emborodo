@@ -17,7 +17,7 @@ public:
 
     virtual void set_position(glm::vec3 position) = 0;
 
-    virtual void set_target(glm::vec3 target) = 0;
+    virtual void look_at(glm::vec3 target) = 0;
 
     virtual const glm::mat4& get_view() = 0;
 
