@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cgltf.h>
 #include <span>
 #include <string_view>
 #include <vector>
@@ -29,6 +30,12 @@ public:
     std::span<const unsigned int> get_indices() const;
 
 private:
+    [[nodiscard]]
+    static mesh load_from_obj_file(std::string_view file_path);
+
+    [[nodiscard]]
+    static mesh load_from_gltf_file(std::string_view file_path);
+
     std::vector<float> m_vertices;
     std::vector<unsigned int> m_indices;
 };
