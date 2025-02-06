@@ -17,6 +17,10 @@ public:
     [[nodiscard]]
     unsigned int get_program_handle() const;
 
+    void set_uniform(std::string_view name, float value) const override;
+
+    void set_uniform(std::string_view name, glm::vec3 value) const override;
+
     void set_uniform(std::string_view name, const glm::mat4& value) const override;
 
 private:

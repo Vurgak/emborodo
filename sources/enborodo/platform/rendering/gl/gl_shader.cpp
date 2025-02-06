@@ -129,10 +129,25 @@ unsigned int gl_shader::get_program_handle() const
     return m_program_handle;
 }
 
+void gl_shader::set_uniform(const std::string_view name, const float value) const
+{
+    glUseProgram(m_program_handle);
+    const auto location = glGetUniformLocation(m_program_handle, "u_AmbientLightStrength");
+    glUniform1f(location, value);
+}
+
+void gl_shader::set_uniform(const std::string_view name, const glm::vec3 value) const
+{
+    glUseProgram(m_program_handle);
+    const auto location = glGetUniformLocation(m_program_handle, "u_AmbientLightColor");
+    glUniform3fv(location, 1, value_ptr(value));
+}
+
 void gl_shader::set_uniform(const std::string_view name, const glm::mat4& value) const
 {
+    glUseProgram(m_program_handle);
     const auto location = glGetUniformLocation(m_program_handle, name.data());
-    glUniformMatrix4fv(location, 1, false, glm::value_ptr(value));
+    glUniformMatrix4fv(location, 1, false, value_ptr(value));
 }
 
 }
