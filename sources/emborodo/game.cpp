@@ -31,9 +31,9 @@ game::game(const std::string_view name, en::application_configuration& configura
     m_texture = m_renderer->new_texture();
     m_texture->load_from_file(EM_ASSETS_PATH "textures/viking_room.png");
 
-    m_quad = en::mesh::load_from_file(EM_ASSETS_PATH "models/viking_room.obj");
+    m_mesh = en::mesh::load_from_file(EM_ASSETS_PATH "models/viking_room.obj");
     m_model = m_renderer->new_model();
-    m_model->load_from_mesh(m_quad);
+    m_model->load_from_mesh(m_mesh);
 }
 
 void game::update([[maybe_unused]] const float delta_time)

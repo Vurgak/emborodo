@@ -1,13 +1,14 @@
 #version 410 core
 
+in vec3 v_Normal;
 in vec2 v_TexCoords;
 
 out vec4 f_Color;
 
 uniform sampler2D u_Texture;
 
-uniform float u_AmbientLightStrength;
 uniform vec3 u_AmbientLightColor;
+uniform float u_AmbientLightStrength;
 
 void main()
 {

@@ -2,6 +2,7 @@
 
 #include <span>
 
+#include <enborodo/rendering/vertex.hpp>
 #include <enborodo/rendering/vertex_buffer.hpp>
 
 namespace en
@@ -12,7 +13,7 @@ class EN_API gl_vertex_buffer final : public vertex_buffer
 public:
     ~gl_vertex_buffer() override;
 
-    void load(std::span<const float> vertices);
+    void load(std::span<const vertex> vertices);
 
     [[nodiscard]]
     bool is_loaded() const noexcept;

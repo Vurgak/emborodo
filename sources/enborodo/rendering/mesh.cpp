@@ -9,7 +9,7 @@
 namespace en
 {
 
-mesh::mesh(std::vector<float>&& vertices, std::vector<unsigned int>&& indices) :
+mesh::mesh(std::vector<vertex>&& vertices, std::vector<unsigned int>&& indices) :
     m_vertices{std::move(vertices)}, m_indices{std::move(indices)}
 {
 }
@@ -31,19 +31,25 @@ mesh mesh::load_from_file(const std::string_view file_path)
     if (!loaded)
         throw std::exception{"failed to load mesh file"};
 
-    std::vector<float> vertices;
+    std::vector<vertex> vertices;
     std::vector<unsigned int> indices;
 
     for (const auto& shape : shapes) {
-        for (const auto& index : shape.mesh.indices) {
-            vertices.push_back(attrib.vertices[index.vertex_index * 3 + 0]);
-            vertices.push_back(attrib.vertices[index.vertex_index * 3 + 1]);
-            vertices.push_back(attrib.vertices[index.vertex_index * 3 + 2]);
+        for (const auto& [vertex_index, normal_index, tex_coord_index] : shape.mesh.indices) {
+            auto& [position, normal, tex_coord] = vertices.emplace_back();
 
-            vertices.push_back(attrib.texcoords[index.texcoord_index * 2 + 0]);
-            vertices.push_back(attrib.texcoords[index.texcoord_index * 2 + 1]);
+            position.x = attrib.vertices[vertex_index * 3 + 0];
+            position.y = attrib.vertices[vertex_index * 3 + 1];
+            position.z = attrib.vertices[vertex_index * 3 + 2];
 
-            indices.push_back(indices.size());
+            normal.x = attrib.normals[normal_index * 3 + 0];
+            normal.y = attrib.normals[normal_index * 3 + 1];
+            normal.z = attrib.normals[normal_index * 3 + 2];
+
+            tex_coord.x = attrib.texcoords[tex_coord_index * 2 + 0];
+            tex_coord.y = attrib.texcoords[tex_coord_index * 2 + 1];
+
+            indices.push_back(static_cast<unsigned int>(indices.size()));
         }
     }
 
@@ -53,16 +59,16 @@ mesh mesh::load_from_file(const std::string_view file_path)
 mesh mesh::generate_quad()
 {
     return mesh{{
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-         0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+        vertex{glm::vec3{-0.5f, -0.5f, 0.0f}, glm::vec3{}, glm::vec2{0.0f, 0.0f}},
+        vertex{glm::vec3{ 0.5f, -0.5f, 0.0f}, glm::vec3{}, glm::vec2{1.0f, 0.0f}},
+        vertex{glm::vec3{ 0.5f,  0.5f, 0.0f}, glm::vec3{}, glm::vec2{1.0f, 1.0f}},
+        vertex{glm::vec3{-0.5f,  0.5f, 0.0f}, glm::vec3{}, glm::vec2{0.0f, 1.0f}},
     }, {
         0, 1, 2, 0, 2, 3
     }};
 }
 
-std::span<const float> mesh::get_vertices() const
+std::span<const vertex> mesh::get_vertices() const
 {
     return {m_vertices.data(), m_vertices.size()};
 }

@@ -44,7 +44,7 @@ private:
     game_object m_player{};
 
     en::texture_ptr m_texture;
-    en::mesh m_quad;
+    en::mesh m_mesh;
     en::model_ptr m_model;
 };
 
