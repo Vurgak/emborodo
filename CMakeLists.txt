@@ -19,6 +19,7 @@ include(cmake/Glfw.cmake)
 include(cmake/Glm.cmake)
 include(cmake/ImGui.cmake)
 
+add_subdirectory(vendor/cgltf)
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/stb)
 
@@ -32,7 +33,7 @@ file(GLOB_RECURSE ENBORODO_SOURCES CONFIGURE_DEPENDS sources/enborodo/*.cpp sour
 add_library(enborodo)
 target_sources(enborodo PRIVATE ${ENBORODO_SOURCES})
 target_include_directories(enborodo PUBLIC sources)
-target_link_libraries(enborodo PUBLIC glad glfw glm::glm imgui magic_enum::magic_enum boost_pfr stb tinyobjloader tomlplusplus::tomlplusplus)
+target_link_libraries(enborodo PUBLIC cgltf glad glfw glm::glm imgui magic_enum::magic_enum boost_pfr stb tinyobjloader tomlplusplus::tomlplusplus)
 
 if (BUILD_SHARED_LIBS)
     target_compile_definitions(enborodo PRIVATE EN_SHARED)
