@@ -24,6 +24,7 @@ game::game(const std::string_view name, en::application_configuration& configura
     m_shader->load_from_file(EM_ASSETS_PATH "shaders/default.vert", EM_ASSETS_PATH "shaders/default.frag");
     m_shader->set_uniform("u_AmbientLightStrength", 0.2f);
     m_shader->set_uniform("u_AmbientLightColor", glm::vec3{1.0f});
+    m_shader->set_uniform("u_DirectionalLightDirection", glm::vec3{-0.3f, -0.6f, 0.0f});
 
     m_renderer->set_camera(m_camera.get_impl());
     m_camera.set_target(m_player);

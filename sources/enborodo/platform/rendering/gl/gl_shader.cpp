@@ -132,14 +132,14 @@ unsigned int gl_shader::get_program_handle() const
 void gl_shader::set_uniform(const std::string_view name, const float value) const
 {
     glUseProgram(m_program_handle);
-    const auto location = glGetUniformLocation(m_program_handle, "u_AmbientLightStrength");
+    const auto location = glGetUniformLocation(m_program_handle, name.data());
     glUniform1f(location, value);
 }
 
 void gl_shader::set_uniform(const std::string_view name, const glm::vec3 value) const
 {
     glUseProgram(m_program_handle);
-    const auto location = glGetUniformLocation(m_program_handle, "u_AmbientLightColor");
+    const auto location = glGetUniformLocation(m_program_handle, name.data());
     glUniform3fv(location, 1, value_ptr(value));
 }
 
