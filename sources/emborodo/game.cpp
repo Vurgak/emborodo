@@ -29,7 +29,7 @@ game::game(const std::string_view name, en::application_configuration& configura
     m_texture = m_renderer->new_texture();
     m_texture->load_from_file(EM_ASSETS_PATH "textures/knight.png");
 
-    m_mesh = en::mesh::load_from_file(EM_ASSETS_PATH "models/gltf/Box.glb");
+    m_mesh = en::mesh::load_from_file(EM_ASSETS_PATH "models/gltf/BoxInterleaved.glb");
     m_model = m_renderer->new_model();
     m_model->load_from_mesh(m_mesh);
 }

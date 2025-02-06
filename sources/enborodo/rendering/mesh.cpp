@@ -119,13 +119,14 @@ mesh mesh::load_from_gltf_file(const std::string_view file_path)
                 const auto accessor = attribute.data;
 
                 const cgltf_buffer_view* buffer_view = accessor->buffer_view;
-                const auto positions = reinterpret_cast<float*>(static_cast<char*>(buffer_view->buffer->data) + buffer_view->offset + accessor->offset);
+                const auto buffer = reinterpret_cast<float*>(static_cast<char*>(buffer_view->buffer->data) + buffer_view->offset + accessor->offset);
 
                 for (cgltf_size v = 0; v < accessor->count; ++v)
                 {
-                    vertices.push_back(positions[v * 3 + 0]);
-                    vertices.push_back(positions[v * 3 + 1]);
-                    vertices.push_back(positions[v * 3 + 2]);
+                    const auto stride = accessor->stride / sizeof(float);
+                    vertices.push_back(buffer[v * stride + 0]);
+                    vertices.push_back(buffer[v * stride + 1]);
+                    vertices.push_back(buffer[v * stride + 2]);
 
                     // TODO: Read texture coordinates.
                     vertices.push_back(0);
